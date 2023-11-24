@@ -10,16 +10,11 @@ import java.util.List;
 public class ClientService {
     static Connection conn = Database.getConnection();
     public static void main(String[] args) {
-        System.out.println(create("John Deer"));
-        System.out.println(getById(20));
-        setName(20, "petya");
-        deleteById(20);
-        System.out.println(listAll());
     }
 
-    public static long create(String name) {
+    public long create(String name) {
         long generatedId = -1;
-        String sqlTemplate = "INSERT INTO users (NAME) VALUES (?)";
+        String sqlTemplate = "INSERT INTO worker (NAME) VALUES (?)";
         if(name.length() > 3 && name.length() < 100) {
             try {
                 PreparedStatement queryStatement = conn.prepareStatement(sqlTemplate, Statement.RETURN_GENERATED_KEYS);
@@ -41,9 +36,9 @@ public class ClientService {
         return generatedId;
     }
 
-    public static String getById(long id) {
+    public String getById(long id) {
         String foundName = "";
-        String sqlTemplate = "SELECT name FROM users WHERE id = ?;";
+        String sqlTemplate = "SELECT name FROM worker WHERE id = ?;";
         try {
             PreparedStatement queryStatement = conn.prepareStatement(sqlTemplate, Statement.RETURN_GENERATED_KEYS);
             queryStatement.setLong(1, id);
@@ -57,9 +52,9 @@ public class ClientService {
         return foundName;
     }
 
-    public static void setName(long id, String name) {
+    public void setName(long id, String name) {
         if (name.length() > 3 && name.length() < 100) {
-            String sqlTemplate = "UPDATE users SET name = ? WHERE id = ?";
+            String sqlTemplate = "UPDATE worker SET name = ? WHERE id = ?";
             try {
                 PreparedStatement queryStatement = conn.prepareStatement(sqlTemplate);
                 queryStatement.setString(1, name);
@@ -79,8 +74,8 @@ public class ClientService {
         }
     }
 
-    public static void deleteById(long userId) {
-        String sqlTemplate = "DELETE FROM users WHERE id = ?";
+    public void deleteById(long userId) {
+        String sqlTemplate = "DELETE FROM worker WHERE id = ?";
 
         try (PreparedStatement queryStatement = conn.prepareStatement(sqlTemplate)) {
             queryStatement.setLong(1, userId);
@@ -96,10 +91,10 @@ public class ClientService {
         }
     }
 
-    public static List<Client> listAll() {
+    public List<Client> listAll() {
         List<Client> clients = new ArrayList<>();
 
-        String query = "SELECT id, name FROM users";
+        String query = "SELECT id, name FROM worker";
 
         try (PreparedStatement queryStatement = conn.prepareStatement(query)) {
             ResultSet resultSet = queryStatement.executeQuery();

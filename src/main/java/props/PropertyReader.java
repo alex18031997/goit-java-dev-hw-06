@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class PropertyReader {
-    public static String getDataFromProp(String propName, Boolean isJdbcProp) {
+    public static String getDataFromProp(String propName) {
         try (InputStream input = PropertyReader.class.getClassLoader()
                 .getResourceAsStream("application.properties")) {
             Properties prop = new Properties();
@@ -17,15 +17,7 @@ public class PropertyReader {
 
             prop.load(input);
 
-            if (isJdbcProp) {
-                return new StringBuilder("jdbc:")
-                        .append(prop.getProperty("postgres.db.host"))
-                        .append("/")
-                        .append(prop.getProperty("postgres.db.database"))
-                        .toString();
-            } else {
-                return new  StringBuilder(prop.getProperty(propName)).toString();
-            }
+            return new  StringBuilder(prop.getProperty(propName)).toString();
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;

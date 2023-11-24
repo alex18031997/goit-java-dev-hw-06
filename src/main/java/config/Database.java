@@ -21,9 +21,9 @@ public class Database {
 
     private static Connection connection;
     private Database() throws SQLException, IOException {
-        String url = PropertyReader.getDataFromProp("", true);
-        String user = PropertyReader.getDataFromProp("postgres.db.user", false);
-        String password = PropertyReader.getDataFromProp("postgres.db.password", false);
+        String url = PropertyReader.getDataFromProp("postgres.db.url");
+        String user = PropertyReader.getDataFromProp("postgres.db.user");
+        String password = PropertyReader.getDataFromProp("postgres.db.password");
 
         try {
             connection = DriverManager.getConnection(url, user, password);
